@@ -100,6 +100,22 @@ and \textbf{Ingress} is the traffic that goes in the switch. }
 \end{figure}
 
 \section{Virtualization types}
+\paragraph{There are two major types of hypervisors: a monolithic hypervisor and a microkernelized hypervisor. The monolithic hypervisor is installed directly to hardware and holds
+all third-party tools and drivers required for the Admin VM and guest VMs to function. A microkernelized hypervisor, like the monolithic hypervisor, is installed directly to the
+hardware but offloads driver management and the virtualization stack to the parent partition}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{hypervisor-types.png}
+\caption{Hypervysor types}
+\label{hypervisor-types}
+\end{figure}
+
+\paragraph{The Hyper-V hypervisor handles access to physical resources such as the physical processer. The hypervisor provides a virtual view of the physical components to the
+partitions. Depending on the configuration, this may be a full virtual view, or the virtual view may be just a slice of the physical resources. The hypervisor uses what is called the
+hypercall as the interface of communications between the partitions and the hardware. The hypervisor will also run the advanced programmable interrupt controller (APIC),
+which assigns priority levels to processor interrupts. The hypervisor also manages memory address management, partitions, and memory service routines.}
+
 \section{Hyper-V Partitions}
 \subsection{VMBus}
 \section{Windows Kernel}

@@ -38,7 +38,8 @@
 \contentsline {paragraph}{It is important to notice the fact that when working on Layer 7 as a firewall, you can detect and make a decision about every TCP Flow, without bothering with the handshake. On the other hand, if a firewall wants to filter traffic from the siwtch, it must correlate by itself all the handhake operations to detect a TCP connection.}{11}
 \contentsline {subsubsection}{Traffic directions}{11}
 \contentsline {paragraph}{At the machine layer, when talking about network traffic we have inbound traffic, and outbound traffic. As their name sais, inbound traffic is the one that comes from outside and outbound traffic is the one that goes out in the network. When speaking about v-swith traffic, there is no inbound and outbound, because the refference object os not a machine anymore, but a switch. For these, there are the terms \textbf {Egress} and \textbf {Ingress}. \textbf {Egress} traffic is the traffic that gets out from the switch, and \textbf {Ingress} is the traffic that goes in the switch. }{12}
-\contentsline {section}{\numberline {2.5}Virtualization types}{13}
+\contentsline {section}{\numberline {2.5}Virtualization types}{12}
+\contentsline {paragraph}{There are two major types of hypervisors: a monolithic hypervisor and a microkernelized hypervisor. The monolithic hypervisor is installed directly to hardware and holds all third-party tools and drivers required for the Admin VM and guest VMs to function. A microkernelized hypervisor, like the monolithic hypervisor, is installed directly to the hardware but offloads driver management and the virtualization stack to the parent partition}{13}
 \contentsline {section}{\numberline {2.6}Hyper-V Partitions}{13}
 \contentsline {subsection}{\numberline {2.6.1}VMBus}{13}
 \contentsline {section}{\numberline {2.7}Windows Kernel}{13}
