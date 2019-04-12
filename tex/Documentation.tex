@@ -1,0 +1,125 @@
+\documentclass[a4paper,12pt]{report}
+\begin{document}
+\include{Title}
+
+\chapter{Introduction}
+
+\paragraph{Virtualization has become a very popular way for IT departments to reduce the amount of equipment they use, while still providing services to their users. Dozens of different companies have dozens of different ways to virtualize, and it should come as a shock to no one that the world’s biggest software maker wants a piece of the virtualization pie.
+In this thesis we’ll take a closer look at the issue of virtualization, itself, before we
+really drill into the features of Hyper-V.
+While computer technology continues to march forward with smaller, sleeker, more powerful machines, in many ways how we use computers has come full circle. Obviously the computers of today are way more powerful than the computers of the 1950s, but it turns out the way we are using them is harkening back to the early days of computing. Let’s take a look at the history of virtualization to see how it all began and look at some of the ways that the world of virtualization has evolved
+}
+
+\section{What is virtualization}
+
+\paragraph{Virtualization, in its simplest form, is the abstraction of hardware from the software. This can take many different forms. It can be in the form of operating system virtualization such as Hyper-V; presentation virtualization with terminal services; or application virtualization with App-V; and companies like Cisco and Hewlett Packard have network and storage virtualization. Operating system virtualization is the most popular virtualization today. It is not only used on servers but is installed on workstations for doing development and conducting demonstrations. Virtualization can help companies maximize the value of IT investments, decreasing the server hardware footprint, energy consumption, and cost and complexity of managing IT systems while increasing the flexibility of the overall environment. Virtualization also helps IT professionals and developers build systems with the flexibility and intelligence to automatically adjust to changing business conditions by aligning computing resources with strategic objectives.
+}
+
+\section{What can be virtualized}
+
+There are five major system components that will drive your choice to virtualize a server or workstation.
+\paragraph{Disk IO}
+\paragraph{Memory Utilization}
+\paragraph{Processor Utilization}
+\paragraph{Operating System}
+\paragraph{Network Utilization – we will talk about this one in particular in the most of the upcoming documentation}
+
+\section{Disk IO}
+
+\paragraph{Is the input and output (IO) of data to a hard disk. Disk IO is measured by the
+number of IO operations per second (IOPS) that can be performed. When planning a
+Windows Server 2008 Hyper-V environment, it will be critical to provide enough IO
+performance from your disk subsystem to the host server or servers to support the IO requirements for the host and each virtual machine you implement. When you are implementing a new virtual machine or converting a physical machine to a virtual machine, the virtual machine itself will use the same amount of IO as it did or would have if it were a physical server. Also, the total amount of IO isn’t just the sum of the virtual machines; it must also include the IO of the host. While doing this, keep in mind that you will someday add more virtual servers to that host.
+}
+
+\section{Memory Utilization}
+
+\paragraph{Is how much Random Access Memory (RAM) a system uses for the base
+operating system as well as for the applications that run on that system. The amount of memory a system uses can go up and down depending on the workload a server is experiencing
+at any given time. Knowing how much memory your guests use at load and on average will
+help you determine not only how much memory you will need to purchase for your host
+systems, but also how many virtual machines you will be able to place on that host.
+}
+
+\section{Processor Utilization}
+
+\paragraph{Processor utilization is how much throughput your CPU is doing at any given time. Each
+task or process that runs on a multitasking CPU must share CPU cycles. This is important because if a task is already heavy on the CPU, there is less time for the CPU to work
+with other processes. With the creation of multicore processors there are more CPU cores
+available to do the tasks at hand. When you do the analysis of your current machines, pay
+close attention to the utilization and the type of processors that are in your systems. This
+will help determine the number of virtual machines that can fit on a host machine.
+}
+
+Network Utilization
+
+Is the amount of network usage of a system. This usage is generally expressed as the amount of bandwidth being recorded over a period of time in megabits per second. The network utilization rate is the ratio of current traffic to the maximum traffic that the
+port can handle. If network utilization rates are high, then the network is busy. If they are
+low, then the network is idle. If the rate is too high, the result is low transmission speeds.
+However, when we talk about network utilization as it relates to virtualization, 
+we’re talking about multiple virtual machines sharing a single network interface card 
+(NIC). The result is a much more efficient strategy, and one that reduces the amount of network traffic. 
+Even if the real NIC is loaded with all the traffic, the virtualization environment offers you a way to manage network interfaces for each virtual machine you have. This way every machine has its own IP, MAC address, registered into a custom local network inside the virtualization environment. 
+
+The problem
+
+While there are a lot of virtual machines on a cluster, it admins have a lot of trouble configuring and securing them. Let’s take for example a cluster with 1000 virtual machines, it is almost impossible for a company to configure the security for each of them. Of course there are Endpoint security solutions, which gather data in one central point, analyzing the behavior, detect and remove malware. 
+But what about the network security? 
+In a very basic and simple scenario, one IT administrator should configure a security solution on each of the machines, like Windows Defender Firewall. But remember the 1000 machines? Well yes, that is impossible. Another reason why this is impossible and impractical of course is that certain machines need different firewall policies, have different needs, some might not need to be secured, and some might need to be isolated from the rest of the network at one point. There can be testing infrastructures, with complicated network setups, switches, routers etc. 
+Some might say that a simple solution is to manipulate the traffic at the physical outgoing network interface, but that is very impractical. We cannot make the same decision for 1000 machines. We need to configure each firewall in accordance with the demands of each machines. 
+
+The solution
+
+One solution, a way that can be used even by Endpoint Protection Security software, is to be able to control the network traffic from a single machine, and more concise, the host machine. IT admins would be able to isolate machines, allow traffic from certain machines and to certain machines. Security solutions can follow the malicious traffic from the source (the host machine) through the system and eventually block it without direct intervention into the machine. 
+In the following chapters, I will show you my solution to this and what it can accomplish.
+I will be helped in the implementation and testing process by Microsoft Windows Hyper-V ecosystem, a virtualization environment developed by Microsoft. Other examples of virtualization environments are VMware, Connectix and Xen.
+
+
+
+
+Theoretical part
+
+History of virtualization
+
+While computer technology continues to march forward with smaller, sleeker, more
+powerful machines, in many ways how we use computers has come full circle.
+Obviously the computers of today are way more powerful than the computers of the
+1950s, but it turns out the way we are using them is going back to the early days
+of computing.
+
+Anyone who has been around computers for a while will quickly recognize that the concept of running a client’s session on a server and then displaying the results on the client
+machine describes the way mainframes work. 
+Let’s take a look at the history of virtualization to see how it all began and look at some of the ways that the world of virtualization has evolved. 
+
+Mainframes examples
+
+VMware
+The reigning king in the world of virtualization is VMware. Their line of products
+(including ESX Server and VI3) has led the recent movement toward virtualized IT systems.
+Connectix Corp
+Connectix Corp. was a company that made virtualization software for Windows and
+Macintosh-based computers. In 2003 Microsoft acquired their virtualization technology
+and now uses it in their own virtualization products.
+Microsoft
+In addition to Hyper-V (the main subject of this book ), there are two other virtualization products from Microsoft out there. While not as grand in scope as Hyper-V, they are still a means of virtualization. Microsoft brings to the virtualization party Virtual PC, Virtual Server, and Hyper-V. 
+
+
+What is Hyper-V
+
+Following the launch of Windows Server 2008, Microsoft released Windows Server 2008
+Hyper-V, the hypervisor-based virtualization technology that is a role built into 64-bit
+versions of Windows Server 2008.
+Hyper-V offers a reliable, scalable, and high-performance virtualization platform that plugs into existing IT infrastructures, enabling users to consolidate some of the most demanding workloads. In addition, the Microsoft System Center product family gives customers a single set of integrated tools to manage physical and virtual resources, helping customers create a more agile and dynamic datacenter.
+Hyper-V’s scalability derives from its support for multiple processors and cores at the host level and improved memory limits at the host and guest level within virtual machines. This enables users to scale their virtualization environment to support a large number of virtual machines within a given host and to take advantage of quick migration for high availability across multiple hosts.
+What is a v-switch
+What can be filtered
+Application
+Project description
+Project architecture
+Kernel mode
+Wfp Callouts
+Communication with UM
+User mode
+Filters
+Communication with KM
+\end{document}
