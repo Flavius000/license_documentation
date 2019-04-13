@@ -2,44 +2,56 @@
 
 \section{History of virtualization}
 
-\paragraph{While computer technology continues to march forward with smaller, sleeker, more powerful machines, in many ways how we use computers has come full circle.
-Obviously the computers of today are way more powerful than the computers of the 1950s, but it turns out the way we are using them is going back to the early days 
-of computing.}
+\vspace{5mm}
 
-\paragraph{Anyone who has been around computers for a while will quickly recognize that the concept of running a client’s session on a server and then displaying the 
+While computer technology continues to march forward with smaller, sleeker, more powerful machines, in many ways how we use computers has come full circle.
+Obviously the computers of today are way more powerful than the computers of the 1950s, but it turns out the way we are using them is going back to the early days 
+of computing.
+
+\vspace{5mm}
+
+Anyone who has been around computers for a while will quickly recognize that the concept of running a client’s session on a server and then displaying the 
 results on the client machine describes the way mainframes work.  Let’s take a look at the history of virtualization to see how it all began and look at some of the 
-ways that the world of virtualization has evolved.}
+ways that the world of virtualization has evolved.
 
 \section{Mainframes examples}
 
+\vspace{5mm}
 \textbf{VMware}
-\paragraph{The reigning king in the world of virtualization is VMware. Their line of products (including ESX Server and VI3) has led the recent movement toward 
-virtualized IT systems.}
+The reigning king in the world of virtualization is VMware. Their line of products (including ESX Server and VI3) has led the recent movement toward 
+virtualized IT systems.
 
+\vspace{5mm}
 \textbf{Connectix Corp}
-\paragraph{Connectix Corp. was a company that made virtualization software for Windows and Macintosh-based computers. In 2003 Microsoft acquired their virtualization 
-technology and now uses it in their own virtualization products.}
+Connectix Corp. was a company that made virtualization software for Windows and Macintosh-based computers. In 2003 Microsoft acquired their virtualization 
+technology and now uses it in their own virtualization products.
 
+\vspace{5mm}
 \textbf{Microsoft}
-\paragraph{In addition to Hyper-V (the main subject of this book ), there are two other virtualization products from Microsoft out there. 
-While not as grand in scope as Hyper-V, they are still a means of virtualization. Microsoft brings to the virtualization party Virtual PC, Virtual Server, and Hyper-V. }
+In addition to Hyper-V (the main subject of this book ), there are two other virtualization products from Microsoft out there. 
+While not as grand in scope as Hyper-V, they are still a means of virtualization. Microsoft brings to the virtualization party Virtual PC, Virtual Server, and Hyper-V.
 
 
+\vspace{5mm}
 \section{What is Hyper-V}
+\vspace{5mm}
 
-\paragraph{Following the launch of Windows Server 2008, Microsoft released Windows Server 2008 Hyper-V, the hypervisor-based virtualization technology that is a role 
+Following the launch of Windows Server 2008, Microsoft released Windows Server 2008 Hyper-V, the hypervisor-based virtualization technology that is a role 
 built into 64-bit versions of Windows Server 2008. Hyper-V offers a reliable, scalable, and high-performance virtualization platform that plugs into existing IT 
 infrastructures, enabling users to consolidate some of the most demanding workloads. In addition, the Microsoft System Center product family gives customers a single 
 set of integrated tools to manage physical and virtual resources, helping customers create a more agile and dynamic datacenter. Hyper-V’s scalability derives from its 
 support for multiple processors and cores at the host level and improved memory limits at the host and guest level within virtual machines. This enables users to scale 
 their virtualization environment to support a large number of virtual machines within a given host and to take advantage of quick migration for high availability across 
-multiple hosts.}
+multiple hosts.
 
+\vspace{5mm}
 \section{What is a v-switch}
 
-\paragraph{A \textbf{v-switch}, ( virtual switch more precise ), is a virtual device that give the virtual machines and the host to communicate over network.
+\vspace{5mm}
+
+A \textbf{v-switch}, ( virtual switch more precise ), is a virtual device that give the virtual machines and the host to communicate over network.
 This type of switches are completely simulating a real swithc, giving a network admin the posibility to create complex routes and networks, faster and easier that working
-with physical devices. In most cases, a v-switch is used to create communication channels vetween Virtual Machines, and between virtual machines and the host.}
+with physical devices. In most cases, a v-switch is used to create communication channels vetween Virtual Machines, and between virtual machines and the host.
 
 \subsection{Networking options}
 
@@ -50,19 +62,26 @@ By default Hyper-V comes with three different networking settings:
 \item \textbf{Private} 
 \end{enumerate}
 
-\paragraph{The \textbf{External} network setting creates a connection to a physical NIC so that guest virtual machines can access the physical network to which that NIC is connected. 
+\vspace{5mm}
+The \textbf{External} network setting creates a connection to a physical NIC so that guest virtual machines can access the physical network to which that NIC is connected. 
 The \textbf{Internal} setting creates a network that the host and the guest virtual machines can communicate on. The \textbf{Private} network setting creates a network that only virtual 
 machines can communicate on. The main and only difference betweem Internal and Private is that the host machine does not have a NIC in the Private one. Basicly, if you add a NIC of the 
 host in a Private network, it becomes an Internal one. More than likely, if you are mixing production, development, and test workloads on your virtual environments, you will have a mix 
-of external, internal, and private networks.}
+of external, internal, and private networks.
 
 \subsection{What can be filtered}
 
-\paragraph{A normal firewall, working on a machine, can have access to traffic data at the 7th from the OSI model, and more exactly at the Application Layer.
-When talking about filtering traffic from a switch, the maximum layer that we can access is layer 4, and more exactly the Transport Layer.}
+\vspace{5mm}
 
-\paragraph{The difference between the 2 aproaches is that filtring at layer 7 gives you more control over what applications access the network, or what applications
-are accessed from outside the computer. Layer 7 gives us information like \textbf{Application id} and \textbf{TCP Flow Information}}.
+A normal firewall, working on a machine, can have access to traffic data at the 7th from the OSI model, and more exactly at the Application Layer.
+When talking about filtering traffic from a switch, the maximum layer that we can access is layer 4, and more exactly the Transport Layer.
+
+\vspace{5mm}
+
+The difference between the 2 aproaches is that filtring at layer 7 gives you more control over what applications access the network, or what applications
+are accessed from outside the computer. Layer 7 gives us information like \textbf{Application id} and \textbf{TCP Flow Information}.
+
+\vspace{5mm}
 
 \begin{figure}[h]
 \centering
@@ -71,26 +90,38 @@ are accessed from outside the computer. Layer 7 gives us information like \textb
 \label{osi-stack}
 \end{figure}
 
+\vspace{5mm}
 \subsubsection{TCP example}
+\vspace{5mm}
 
-\paragraph{TCP has a well known \textit{handshake} for every connection made. It is a way to syncronize 2 endpoints and let them know how to communicate with each other.
-The handshake looks like this:}
+TCP has a well known \textit{handshake} for every connection made. It is a way to syncronize 2 endpoints and let them know how to communicate with each other.
+The handshake looks like this:
+
 \begin{enumerate}
 \item A pachet that has \textbf{SYN} TCP flag set, is sent from the client to server.
 \item A pachet that has \textbf{SYN-ACK} TCP flags set, is sent from the server to client.
 \item A pachet that has \textbf{ACK} TCP flag set, is sent from the client to server.
 \end{enumerate}
-\paragraph{After this operation, at the operating system level, the TCP connection has been made. This connection is known as a \textbf{TCP Flow}. On a Windows machine,
-the NDIS network drivers does this, with the help of tcpip.sys driver.}
-\paragraph{It is important to notice the fact that when working on Layer 7 as a firewall, you can detect and make a decision about every TCP Flow, without bothering with
-the handshake. On the other hand, if a firewall wants to filter traffic from the siwtch, it must correlate by itself all the handhake operations to detect a TCP connection.}
 
+\vspace{5mm}
+
+After this operation, at the operating system level, the TCP connection has been made. This connection is known as a \textbf{TCP Flow}. On a Windows machine,
+the NDIS network drivers does this, with the help of tcpip.sys driver.
+
+\vspace{5mm}
+
+It is important to notice the fact that when working on Layer 7 as a firewall, you can detect and make a decision about every TCP Flow, without bothering with
+the handshake. On the other hand, if a firewall wants to filter traffic from the siwtch, it must correlate by itself all the handhake operations to detect a TCP connection.
+
+\vspace{5mm}
 \subsubsection{Traffic directions}
-\paragraph{At the machine layer, when talking about network traffic we have inbound traffic, and outbound traffic. As their name sais, inbound traffic is the one that comes from
+\vspace{5mm}
+At the machine layer, when talking about network traffic we have inbound traffic, and outbound traffic. As their name sais, inbound traffic is the one that comes from
 outside and outbound traffic is the one that goes out in the network. When speaking about v-swith traffic, there is no inbound and outbound, because the refference object os not 
 a machine anymore, but a switch. For these, there are the terms \textbf{Egress} and \textbf{Ingress}. \textbf{Egress} traffic is the traffic that gets out from the switch,
-and \textbf{Ingress} is the traffic that goes in the switch. }
+and \textbf{Ingress} is the traffic that goes in the switch.
 
+\vspace{5mm}
 
 \begin{figure}[h]
 \centering
@@ -99,10 +130,14 @@ and \textbf{Ingress} is the traffic that goes in the switch. }
 \label{ingress-vs-egress}
 \end{figure}
 
+\vspace{5mm}
 \section{Virtualization types}
-\paragraph{There are two major types of hypervisors: a monolithic hypervisor and a microkernelized hypervisor. The monolithic hypervisor is installed directly to hardware and holds
+\vspace{5mm}
+There are two major types of hypervisors: a monolithic hypervisor and a microkernelized hypervisor. The monolithic hypervisor is installed directly to hardware and holds
 all third-party tools and drivers required for the Admin VM and guest VMs to function. A microkernelized hypervisor, like the monolithic hypervisor, is installed directly to the
-hardware but offloads driver management and the virtualization stack to the parent partition}
+hardware but offloads driver management and the virtualization stack to the parent partition.
+
+\vspace{5mm}
 
 \begin{figure}[h]
 \centering
@@ -111,18 +146,107 @@ hardware but offloads driver management and the virtualization stack to the pare
 \label{hypervisor-types}
 \end{figure}
 
-\paragraph{The Hyper-V hypervisor handles access to physical resources such as the physical processer. The hypervisor provides a virtual view of the physical components to the
+\vspace{5mm}
+
+The Hyper-V hypervisor handles access to physical resources such as the physical processer. The hypervisor provides a virtual view of the physical components to the
 partitions. Depending on the configuration, this may be a full virtual view, or the virtual view may be just a slice of the physical resources. The hypervisor uses what is called the
 hypercall as the interface of communications between the partitions and the hardware. The hypervisor will also run the advanced programmable interrupt controller (APIC),
-which assigns priority levels to processor interrupts. The hypervisor also manages memory address management, partitions, and memory service routines.}
+which assigns priority levels to processor interrupts. The hypervisor also manages memory address management, partitions, and memory service routines.
 
+\vspace{5mm}
 \section{Hyper-V Partitions}
+\vspace{5mm}
+
+Hyper-V creates logical units of isolation in which a guest operating system will be installed. Each of those logical units is called a partition. There are two types of partitions that are created in Hyper-V:
+\begin{enumerate}
+	\item the parent partition 
+	\item the child partition.
+\end{enumerate}
+
+\vspace{5mm}
+\subsection{Parent Partition}
+\vspace{5mm}
+
+The parent partition, or root partition, runs the virtualization stack and is the partition that has direct access to the hardware devices. When you install Windows Server
+2008 and then implement the Hyper-V role, your initial installation becomes the parent or root partition. The parent partition runs the virtualization service provider (VSP) that talks
+directly to the device drivers through the hypervisor and offers hardware services when requested by child partitions. The virtualization stack consists of the VM worker processes,
+a Windows Management Instrumentation (WMI) provider, and the VM Services. The VM worker processes are user-mode components of the virtualization stack.
+The VM worker processes provide virtual machine management (VMM) services from the parent partition to the child partitions. For each child partition there is a separate set of VM worker processes created. The virtual machine management service is responsible for managing the state of each child partition.
+
+\vspace{5mm}
+
+The parent partition also contains a specific set of WMI APIs to allow you to programmatically control and manage a virtual machine. The virtualization infrastructure driver
+(VID) and Windows Hypervisor Interface Library or WinHV components are used for physical resource management. The VID provides management services for partitions, virtual processor management, and memory management. The WinHV component allows a partitioned operating system to talk to the hypervisor directly with standard Windows calling conventions.
+
+\vspace{5mm}
+
+The parent partition is also used to create child partitions that will run an isolated guest operating system with applications.
+
+\vspace{5mm}
+\subsection{Child Partition}
+\vspace{5mm}
+
+The child partition runs a guest operating system that can have applications installed and running many different functions of a business. If a supported hypervisoraware operating system is installed on the guest virtual machine or child partition, it will run the virtualization service client or VSC. The VSC consumes the services that the VSP makes available for use.
+
+\vspace{5mm}
+
+Hyper-V categorizes operating systems into two different categories:
+\begin{enumerate}
+	\item hypervisoraware operating system 
+	\item non-hypervisor-aware operating system
+\end{enumerate}
+
+\vspace{5mm}
+
+A hypervisoraware operating system is extremely similar to a paravirtualized operating system.
+
+\vspace{5mm}
+
+Paravirtualization is a method that lets a guest operating system know that it’s being virtualized and allows for the host system and the guest system to cooperate to help
+reduce the performance cost on key functions of a guest operating system. Hypervisoraware operating systems work directly with Hyper-V to realize performance and management gains by taking advantage of Enlightened I/O.
+
+\vspace{5mm}
+
+Two different types of devices are present in a child partition:
+\begin{enumerate}
+	\item synthetic
+	\item emulated
+\end{enumerate}
+
+
+A \textbf{synthetic} device is designed to have the lowest overhead and utilizes the VMBUS to send packaged instructions to a driver on the parent partition
+
+\vspace{5mm}
+
+An \textbf{emulated} device is a device that emulates a physical device such as a network interface card. After you install a supported operating system onto a child partition, 
+you will want to install the integration components on that operating system. Integration components are a set of services and drivers that help the virtual machine perform and behave 
+in a more consistent manner. There are integration components for both Windows and Linux operating systems. The Windows Integration Components installs the virtualization service client 
+as well as time synchronization, heartbeat, shutdown, key/value pair exchange, and the Volume Shadow Copy Service (VSS).
+
+\vspace{5mm}
+
+The time synchronization component plays an important role in keeping child partitions in sync. This can be achieved using a network protocol as well, but the time synchronization component comes in handy when a network resource isn’t available, or where a network protocol may be too slow. Having the ability to synchronize time quickly becomes
+very important when restoring a virtual machine from a saved state, or when bringing a virtual machine back online that has been in a dormant state for an extended period of time.
+
+\vspace{5mm}
+
+The parent partition will use the heartbeat component to send a regular request to the child partition to verify if that partition is available. If the parent partition doesn’t
+receive a response in a timely manner, it will continue to request a status and will log
+events for the missing replies.
+
 \subsection{VMBus}
+
+\vspace{5mm}
+
+The virtual machine bus (VMBUS) is used for communication between the parent and child partition via the virtual service provider and the virtual service client. The VMBUS
+provides a virtualized environment if your system is running a virtualization-optimized processor.
+
+\vspace{5mm}
+
 \section{Windows Kernel}
 \subsection{File system drivers}
 \subsection{Network Drivers(NDIS)}
 \section{Network drivers}
-\subsection{TCP/IP stack}
 \subsection{Windows Filtering Platform}
 \subsubsection{Layer available for filtering}
 \subsubsection{Filters}
