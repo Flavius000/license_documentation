@@ -135,7 +135,7 @@ and \textbf{Ingress} is the traffic that goes in the switch.
 \vspace{5mm}
 There are two major types of hypervisors: a monolithic hypervisor and a microkernelized hypervisor. The monolithic hypervisor is installed directly to hardware and holds
 all third-party tools and drivers required for the Admin VM and guest VMs to function. A microkernelized hypervisor, like the monolithic hypervisor, is installed directly to the
-hardware but offloads driver management and the virtualization stack to the parent partition.
+hardware but offloads driver management and the virtualization stack to the parent partition. \cite{BOOK:3}
 
 \vspace{5mm}
 
@@ -157,7 +157,7 @@ which assigns priority levels to processor interrupts. The hypervisor also manag
 \section{Hyper-V Partitions}
 \vspace{5mm}
 
-Hyper-V creates logical units of isolation in which a guest operating system will be installed. Each of those logical units is called a partition. There are two types of partitions that are created in Hyper-V:
+Hyper-V creates logical units of isolation in which a guest operating system will be installed. Each of those logical units is called a partition . There are two types of partitions that are created in Hyper-V:
 \begin{enumerate}
 	\item the parent partition 
 	\item the child partition.
@@ -167,7 +167,7 @@ Hyper-V creates logical units of isolation in which a guest operating system wil
 \subsection{Parent Partition}
 \vspace{5mm}
 
-The parent partition, or root partition, runs the virtualization stack and is the partition that has direct access to the hardware devices. When you install Windows Server
+The parent partition \cite{BOOK:1}, or root partition, runs the virtualization stack and is the partition that has direct access to the hardware devices. When you install Windows Server
 2008 and then implement the Hyper-V role, your initial installation becomes the parent or root partition. The parent partition runs the virtualization service provider (VSP) that talks
 directly to the device drivers through the hypervisor and offers hardware services when requested by child partitions. The virtualization stack consists of the VM worker processes,
 a Windows Management Instrumentation (WMI) provider, and the VM Services. The VM worker processes are user-mode components of the virtualization stack.
@@ -186,7 +186,7 @@ The parent partition is also used to create child partitions that will run an is
 \subsection{Child Partition}
 \vspace{5mm}
 
-The child partition runs a guest operating system that can have applications installed and running many different functions of a business. If a supported hypervisoraware operating system is installed on the guest virtual machine or child partition, it will run the virtualization service client or VSC. The VSC consumes the services that the VSP makes available for use.
+The child partition \cite{BOOK:1} runs a guest operating system that can have applications installed and running many different functions of a business. If a supported hypervisoraware operating system is installed on the guest virtual machine or child partition, it will run the virtualization service client or VSC. The VSC consumes the services that the VSP makes available for use.
 
 \vspace{5mm}
 
@@ -238,16 +238,63 @@ events for the missing replies.
 
 \vspace{5mm}
 
-The virtual machine bus (VMBUS) is used for communication between the parent and child partition via the virtual service provider and the virtual service client. The VMBUS
+The virtual machine bus (VMBUS) \cite{BOOK:2} is used for communication between the parent and child partition via the virtual service provider and the virtual service client. The VMBUS
 provides a virtualized environment if your system is running a virtualization-optimized processor.
 
 \vspace{5mm}
 
 \section{Windows Kernel}
-\subsection{File system drivers}
-\subsection{Network Drivers(NDIS)}
+\vspace{5mm}
+
+To protect user applications from accessing and/or modifying critical operating system data, Windows
+uses two processor access modes (even if the processor on which Windows is running supports more
+than two): user mode and kernel mode \cite{BOOK:1} . User application code runs in user mode, whereas operating
+system code (such as system services and device drivers) runs in kernel mode. Kernel mode refers to
+a mode of execution in a processor that grants access to all system memory and all CPU instructions.
+By providing the operating system software with a higher privilege level than the application software
+has, the processor provides a necessary foundation for operating system designers to ensure that a
+misbehaving application can’t disrupt the stability of the system as a whole.
+
+\vspace{5mm}
 \section{Network drivers}
+\vspace{5mm}
+
+Network drivers take high-level I/O requests and translate them into low-level network protocol
+requests for transmission across the network. The network APIs rely on transport protocol drivers in
+kernel mode to perform the actual translation. Separating APIs from underlying protocols gives the
+networking architecture the flexibility of letting each API use a number of different protocols.
+
+\vspace{5mm}
 \subsection{Windows Filtering Platform}
+\vspace{5mm}
+
+\cite{BOOK:1} Windows includes a rich and extensible platform for monitoring, intercepting, and processing
+network traffic at all levels in the network stack. Other Windows networking services extend basic
+networking features of the TCP/IP protocol driver by relying on Windows Filtering Platform (WFP).
+These include Network Address Translation (NAT), IP filtering, IP inspection, and Internet Protocol
+Security (IPsec).
+
+\vspace{5mm}
+
+Some of the major component of WFP are:
+\begin{enumerate}
+
+\item Filter engine. The filter engine is implemented in both user mode and kernel mode and performs all the filtering operations on the network. Each filter engine component consists of
+filtering layers, one for each component of the network stack.
+
+\item Shims. Shims are the kernel-mode components that reside between the network stack and the filter engine. They are responsible for making the decision to allow or block network traffic
+based on their filtering behavior, which is defined by the filter engine. A shim operates in three steps: it parses the incoming data to match incoming values with entries in the filter engine,
+calls the filter engine to return an action based on the incoming values, and then interprets the action (drop the packet, for example).
+
+\item Base filtering engine (BFE). The BFE is a user-mode service that manages all WFP operations. It is responsible for adding and removing filters from the WFP stack, managing the filter 
+configuration, and enforcing security on the filter database.
+
+\item Callout drivers. Callout drivers are kernel-mode components that add custom filtering functionality outside the basic support provided by the WFP. Callout drivers associate callout 
+functions with one or more kernel-mode filtering layers, and the WFP enables callout functions to perform deep packet inspection and modification. This topic will be the most covered in the
+upcoming details.
+
+\end{enumerate}
+
 \subsubsection{Layer available for filtering}
 \subsubsection{Filters}
 \subsubsection{Callouts}

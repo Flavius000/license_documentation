@@ -1,6 +1,8 @@
 
 \documentclass[a4paper,12pt]{report}
+
 \usepackage{graphicx} %Loading the package
+
 \graphicspath{{images/}} %Setting the graphicspath
 \begin{document}
 
@@ -10,7 +12,13 @@
 \tableofcontents
 
 \include{Introduction}
-\include{Theoretical part}
+\include{Theoretical}
 \include{Application}
+
+\newpage
+
+\bibliography{Bibliography} 
+\bibliographystyle{ieeetr}
+
 
 \end{document}
