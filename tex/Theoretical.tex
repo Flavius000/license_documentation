@@ -208,6 +208,7 @@ reduce the performance cost on key functions of a guest operating system. Hyperv
 \vspace{5mm}
 
 Two different types of devices are present in a child partition:
+\vspace{5mm}
 \begin{enumerate}
 	\item synthetic
 	\item emulated
@@ -268,11 +269,19 @@ networking architecture the flexibility of letting each API use a number of diff
 \subsection{Windows Filtering Platform}
 \vspace{5mm}
 
+Windows Filtering Platform (WFP) is a set of API and system services that provide a platform for creating network filtering applications. The WFP API allows developers to write code that interacts with the packet processing that takes place at several layers in the networking stack of the operating system. Network data can be filtered and also modified before it reaches its destination.
+
+\vspace{5mm}
+
 \cite{BOOK:1} Windows includes a rich and extensible platform for monitoring, intercepting, and processing
 network traffic at all levels in the network stack. Other Windows networking services extend basic
 networking features of the TCP/IP protocol driver by relying on Windows Filtering Platform (WFP).
 These include Network Address Translation (NAT), IP filtering, IP inspection, and Internet Protocol
 Security (IPsec).
+
+\vspace{5mm}
+
+With the WFP API, developers can implement firewalls, intrusion detection systems, antivirus programs, network monitoring tools, and parental controls. The WFP API consists of a user-mode API and a kernel-mode API.
 
 \vspace{5mm}
 
@@ -295,7 +304,103 @@ upcoming details.
 
 \end{enumerate}
 
-\subsubsection{Layer available for filtering}
 \subsubsection{Filters}
+
+The main functionality of WFP is the filter registration. A filter is basicaly a set of conditions that tells the WFP whether or not to match a certain traffic. For example a filter can contain the condition of \textbf{remote port 80}, and will match only the traffic that goes to or comes from port 80. The matching action is defined by the developer and it can mainly be to block or allow the traffic, but we will talk about this later.
+
+\vspace{5mm}
+
+Each filter can have a \textbf{weight} that represents its order in the filter stack. A filter with a higher weight has priority over others with lower weights. This mechanism allow for complex scenarios and customizations of a network filtering application.
+Here is an example of 2 rules, given in the order of their priorities ( high to low ):
+\begin{enumerate}
+\item Allow port 80
+\item Block ( all )
+\end{enumerate}
+
+\vspace{5mm}
+
+In the above example we allowed for port 80, which means that all connection to port 80 will pass, while others will be blocket. If the block rule had a higher weight, it would have blocked all traffic, including port 80.
+
+\vspace{5mm}
+
+There are 2 types of filters:
+\begin{enumerate}
+\item Action filters
+\item Callout filters
+\end{enumerate}
+
+\vspace{5mm}
+
+An action filter has 2 possible verdicts: allow and block. This is usualy used in simple firewall rules when someone knows exatly what needs to be filtered and the conditions provided by WFP cover them all ( will talk about conditions soon ).
+\vspace{5mm}
+
+A callout filter is a filter that has a callout attached to it for better detections, filtering and complex logic. Sometimes one does not have all the conditions for filtering given by WFP, and needs to register a callout in order to filter the traffic based on more criterias.  In most cases, a filtering traffic utility does that, like a parental control product. It has to register callouts in order to access the data received on that connection, parse it and see if there is anything suspicious or matches a product policy and then take the action of blocking of permiting the traffic. 
+
+\subsubsection{Filter Arbitration Behaviors}
+
+\vspace{5mm}
+
+Filter arbitration is the logic built into the Windows Filtering Platform (WFP) that is used to determine how filters interact with each other when making network traffic filtering decisions.
+
+\vspace{5mm}
+The following behaviors characterize the filter arbitration system:
+\vspace{5mm}
+
+\begin{enumerate}
+\item All traffic can be inspected. No traffic can bypass filters at a given layer.
+\item Traffic can be blocked by a callout filter via a Veto even if a higher priority filter has permitted it.
+\item Multiple providers can inspect traffic at the same layer. For example, firewall followed by intrusion-detection system (IDS) filters, or IPsec followed by Quality of Service (QoS) filters may all examine the traffic at the same layer.
+\end{enumerate}
+\vspace{5mm}
+
+Within a sub-layer, filter arbitration is performed as follows:
+
+\vspace{5mm}
+\begin{enumerate}
+\item Compute the list of matching filters ordered by weight from highest to lowest.
+\item Evaluate matching filters in order until a "Permit" or a "Block" is returned (filters can also return "Continue") or until the list is exhausted.
+\item Skip the remaining filters and return the action from the last evaluated filter.
+\end{enumerate}
+
+\vspace{5mm}
+Within a layer, filter arbitration is performed as follows:
+\vspace{5mm}
+
+\begin{enumerate}
+\item Perform filter arbitration at every sub-layer in order from highest priority to lowest priority.
+\item Evaluate all sub-layers even if a higher priority sub-layer has decided to block the traffic.
+\item Return the resulting action based on the policy rules described in the following section.
+\end{enumerate}
+
+\vspace{5mm}
+
+\subsubsection{Layer available for filtering}
+
+\vspace{5mm}
+
+WFP lets a developer choose at which layer the traffic
+
+\vspace{5mm}
+
+The Windows Filtering Platform (WFP) layer identifiers are each represented by a GUID.
+For example \textbf{FWPM LAYER ALE AUTH LISTEN V4} layer allows for authorizing TCP listen requests. Looking again at the above example with port 80, if the filter is at this layer the rule will match only if it is an inbound connection to the local machine. A connection from the local machine to a server will not trigger the rule. 
+
+\vspace{5mm}
+
+There are a lot of layers available for filtering coresponding to the OSI model and more, but the ones we are interested in in this article are the following: 
+
+\vspace{5mm}
+
+\begin{enumerate}
+\item FWPS\_LAYER\_INGRESS\_VSWITCH\_ETHERNET
+\item FWPS\_LAYER\_EGRESS\_VSWITCH\_ETHERNET
+\item FWPS\_LAYER\_INGRESS\_VSWITCH\_TRANSPORT\_V4
+\item FWPS\_LAYER\_INGRESS\_VSWITCH\_TRANSPORT\_V6
+\item FWPS\_LAYER\_EGRESS\_VSWITCH\_TRANSPORT\_V4
+\item FWPS\_LAYER\_EGRESS\_VSWITCH\_TRANSPORT\_V6
+\end{enumerate}
+
+\subsubsection{Filtering conditions}
+
 \subsubsection{Callouts}
 
