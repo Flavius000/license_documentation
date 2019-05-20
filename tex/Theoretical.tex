@@ -1,5 +1,4 @@
 \chapter{Theoretical part}
-
 \section{History of virtualization}
 
 \vspace{5mm}
@@ -70,6 +69,12 @@ host in a Private network, it becomes an Internal one. More than likely, if you 
 of external, internal, and private networks.
 
 \subsection{What can be filtered}
+
+\vspace{5mm}
+
+The Hyper-V extensible switch supports an interface that allows instances of NDIS filter drivers (known as extensible switch extensions) to bind within the extensible switch driver stack. 
+After they are bound and enabled, extensions can monitor, modify, and forward packets to extensible switch ports. This also allows extensions to reject, redirect, or originate packets to 
+ports that are used by the Hyper-V partitions.
 
 \vspace{5mm}
 
@@ -374,11 +379,53 @@ Within a layer, filter arbitration is performed as follows:
 
 \vspace{5mm}
 
+\subsubsection{Application Programming Interface}
+
+The following function is used to add a filter to WFP engine.
+
+\begin{lstlisting}
+DWORD FwpmFilterAdd0(
+  HANDLE               		engineHandle,
+  const FWPM_FILTER0   	*filter,
+  PSECURITY_DESCRIPTOR sd,
+  UINT64               		*id
+);
+\end{lstlisting}
+
+The handle to the filter engine is received after a call \textbf{FwpmEngineOpen0} to open a session.
+
+This is the filter object structure. There are multiple fields that tell the filter where it must apply, and fileds that tell the filter how to behave.
+
+\begin{lstlisting}
+typedef struct FWPM_FILTER0_ {
+  GUID                   	filterKey;
+  FWPM_DISPLAY_DATA0     	displayData;
+  UINT32                 	flags;
+  GUID                   	*providerKey;
+  FWP_BYTE_BLOB          	providerData;
+  GUID                   	layerKey;
+  GUID                   	subLayerKey;
+  FWP_VALUE0                weight;
+  UINT32                 	numFilterConditions;
+  FWPM_FILTER_CONDITION0 	*filterCondition;
+  FWPM_ACTION0              action;
+  union {
+    UINT64 rawContext;
+    GUID   providerContextKey;
+  };
+  GUID                   	*reserved;
+  UINT64                 	filterId;
+  FWP_VALUE0             	effectiveWeight;
+} FWPM_FILTER0;
+\end{lstlisting}
+
+The above are just some example in order to make a better idea about the functionality. Please go to the official documentation from Microsoft for a full documentation and explication.
+
 \subsubsection{Layer available for filtering}
 
 \vspace{5mm}
 
-WFP lets a developer choose at which layer the traffic
+WFP lets a developer choose at which layer the traffic should be filtered.
 
 \vspace{5mm}
 
@@ -402,5 +449,208 @@ There are a lot of layers available for filtering coresponding to the OSI model 
 
 \subsubsection{Filtering conditions}
 
-\subsubsection{Callouts}
+Filter conditions are entities that help a developer vary the rules applied to the network stack.
 
+\vspace{5mm}
+
+\begin{lstlisting}
+typedef struct FWPM_FILTER_CONDITION0_ {
+  GUID                 fieldKey;
+  FWP_MATCH_TYPE       matchType;
+  FWP_CONDITION_VALUE0 conditionValue;
+} FWPM_FILTER_CONDITION0;
+\end{lstlisting}
+
+\vspace{5mm}
+
+This is the layout of a condition. There must be an array of them applied to the \textbf{filterCondition} field of the \textbf{FWPM\_FILTER0}. ALso it is mandatory to set the counter to the proper value.
+
+\vspace{5mm}
+
+The conditions are valuated in the order in which they are inserted in the array. If every condition matches the traffic, the filter will match and apply the verdict or call the callout. 
+
+\vspace{5mm}
+
+As an example, we can have the following conditions: \textbf{port 80} and \textbf{application == chrome.exe}. Wfp applies this filters over all traffic, and if and only if the traffic is from \textbf{Chrome.exe} and on \textbf{port 80} it will apply the action.
+
+\vspace{5mm}
+
+There is a special rule in the implementation of WFP condition checking. If there are multiple consecutive conditions of the same type ( let's say port conditions ) , WFP will apply an \textbf{AND} between them, otherwise an \textbf{AND}. For a better overview let's take the above example but add
+a new port conditons. This time we have \textbf{port 443} , \textbf{port 80} and \textbf{application == chrome.exe}. In this case, the formula for checking if the traffic matches the rule is:
+\vspace{5mm}
+
+\begin{lstlisting}
+port 443 OR port 80 AND Chrome.exe.
+\end{lstlisting}
+
+As you can see, if there are multiple conditions of the same type, but not consecutive in the array, the filter might not match any traffic. If the evaluation is done this way : 
+
+\begin{lstlisting}
+port 443 AND Chrome.exe OR port 80.
+\end{lstlisting}
+
+WFP will not match any traffic due to the fact that there cannot be traffic on both ports 443 and 80 in the same time. ( talking about remote ports here ).
+
+\vspace{5mm}
+
+The Windows Filtering Platform (WFP) filter engine supports a different set of filtering conditions at each of its filtering layers.
+
+\vspace{5mm}
+
+\textbf{The layers are: }
+
+\begin{enumerate}
+\item FWPM\_LAYER\_EGRESS\_VSWITCH\_TRANSPORT\_V4
+\item FWPM\_LAYER\_INGRESS\_VSWITCH\_TRANSPORT\_V4
+\item FWPM\_LAYER\_INGRESS\_VSWITCH\_TRANSPORT\_V6
+\item FWPM\_LAYER\_EGRESSVSWITCH\_TRANSPORT\_V6
+\end{enumerate}
+
+\textbf{The conditions available are:}
+
+\begin{enumerate}
+\item FWPM\_CONDITION\_IP\_SOURCE\_ADDRESS
+The source ip of the ip header
+\item FWPM\_CONDITION\_IP\_DESTINATION\_ADDRESS
+The destination ip of the ip header
+\item FWPM\_CONDITION\_IP\_PROTOCOL
+The protocol from the ip header ( tcp, udp, icmp )
+\item FWPM\_CONDITION\_IP\_SOURCE\_PORT
+The source port of the transport header ( tcp port or udp port )
+\item FWPM\_CONDITION\_IP\_DESTINATION\_PORT
+The destination port of the transport header ( tcp port or udp port )
+\item FWPM\_CONDITION\_VLAN\_ID
+\item FWPM\_CONDITION\_VSWITCH\_TENANT\_NETWORK\_ID
+\item FWPM\_CONDITION\_VSWITCH\_ID
+\item FWPM\_CONDITION\_VSWITCH\_NETWORK\_TYPE
+\item FWPM\_CONDITION\_VSWITCH\_SOURCE\_INTERFACE\_ID
+\item FWPM\_CONDITION\_VSWITCH\_SOURCE\_INTERFACE\_TYPE
+\item FWPM\_CONDITION\_VSWITCH\_SOURCE\_VM\_ID
+The id of the source VM. This is is represented by a GUID.
+\item FWPM\_CONDITION\_VSWITCH\_DESTINATION\_INTERFACE\_ID
+\item FWPM\_CONDITION\_VSWITCH\_DESTINATION\_INTERFACE\_TYPE
+\item FWPM\_CONDITION\_VSWITCH\_L2\_FLAGS
+Layer 2 flags represent the type of layer 2 protocol, as ARP, IP, etc
+\end{enumerate}
+
+\vspace{5mm}
+\subsubsection{Callouts}
+\vspace{5mm}
+
+The filter engine calls a callout's classifyFn callout function when there is network data to be processed by the callout. This occurs when all the filtering conditions are true for a filter that specifies the callout for the filter's action. If such a filter has no filtering conditions, the filter engine always calls the callout's classifyFn callout function.
+
+\vspace{5mm}
+
+The filter engine passes several different data items to a callout's classifyFn callout function. These data items include fixed data values, metadata values, raw network data, filter information, and any flow context. The particular data items that the filter engine passes to the callout depend on the specific filtering layer and the conditions 
+under which classifyFn is called. A classifyFn function can use any combination of these data items to make its filtering decisions.
+
+\vspace{5mm}
+
+The following function is the prototype of the function that needs to be implemented by a developer in order to access and modify a network packet. In this callout a packet can be pended 
+( pend the operation ) and after all the processing has been made the operation can be completed and the pended packet reinjected in the network stack ( with or without changes from the
+original format ) 
+
+\vspace{5mm}
+
+\begin{lstlisting}
+VOID NTAPI ClassifyFn(
+    IN const FWPS_INCOMING_VALUES0  *inFixedValues,
+    IN const FWPS_INCOMING_METADATA_VALUES0  *inMetaValues,
+    IN OUT VOID  *layerData,
+    IN const FWPS_FILTER0  *filter,
+    IN UINT64  flowContext,
+    IN OUT FWPS_CLASSIFY_OUT0  *classifyOut
+    );
+\end{lstlisting}
+
+\vspace{5mm}
+
+This is this callout registration structure. One must fill this structure with all the information needed by WFP in order for it to work properly. The \textbf{ClassifyFn} function pointer
+must point to a function as described above. It will be called every time the filter containing this callout matches a traffic packet and will be called with it as the \textbf{layerData}
+parameter.
+
+\vspace{5mm}
+
+\begin{lstlisting}
+const FWPS_CALLOUT0 Callout =
+{
+ { ... }, // GUID key identifying the callout
+ 0,       // Callout-specific flags (none set here)
+ ClassifyFn,
+ NotifyFn,
+ FlowDeleteFn
+};
+\end{lstlisting}
+
+\vspace{5mm}
+
+Here is an example of how a callout is registered in the system. Firstly, for the WFP to know about filters and their coresponding identifiers ( GUIDS ), the callout must be registered first 
+before it is used. After the callout is registered, it can be used in the filter registration by its GUID.
+
+\vspace{5mm}
+
+\begin{lstlisting}
+NTSTATUS DriverEntry(
+    IN PDRIVER_OBJECT DriverObject,
+    IN PUNICODE_STRING RegistryPath
+    )
+{
+  PDEVICE_OBJECT deviceObject;
+  NTSTATUS status;
+
+  ...
+
+ status =
+ FwpsCalloutRegister0(
+ deviceObject,
+      &Callout,
+      &CalloutId
+      );
+\end{lstlisting}
+
+\vspace{5mm}
+
+\subsubsection{IRQL}
+
+\vspace{5mm}
+
+IRQL stands for \textbf{Interrupt Request Level}.
+
+\vspace{5mm}
+
+The priority ranking of an interrupt. A processor has an IRQL setting that threads can raise or lower. Interrupts that occur at or below the processor's IRQL setting are masked and will 
+not interfere with the current operation. Interrupts that occur above the processor's IRQL setting take precedence over the current operation.
+
+\vspace{5mm}
+
+The particular IRQL at which a piece of kernel-mode code executes determines its hardware priority. Kernel-mode code is always interruptible: an interrupt with a higher IRQL value can 
+occur at any time, thereby causing another piece of kernel-mode code with the system-assigned higher IRQL to be run immediately on that processor. In other words, when a piece of code 
+runs at a given IRQL, the Kernel masks off all interrupt vectors with a lesser or equal IRQL value on the microprocessor.
+
+\vspace{5mm}
+
+\begin{figure}[h]
+\centering
+\includegraphics[]{IRQL.jpg}
+\caption{IRQL}
+\label{IRQL}
+\end{figure}
+
+\vspace{5mm}
+
+The User Mode processes run at passive level. That is why even if a process hangs, the mouse can still be moved, due to the fact that the interupt for the mouse has a higher priority.
+
+\vspace{5mm}
+
+The WFP callouts are usually called at \textbf{DISPATCH\_LEVEL}. The interesting thing about this level is that the windows thread scheduler works at the same IRQL. As the theory sais
+that only a higher ( not equal ) IRQL can interupt other ones, it is self explanatory that if a thread at DISPATCH\_LEVEL is blocked, the hole system is blocked ( excepting things like the clock,
+POWER, etc ).
+
+\vspace{5mm}
+
+If a thread stays too much at DISPATCH\_LEVEL windows will trigger a Blue Screen of Death. More exactly, this BSOD is caused by a windows component named \textbf{Watchdog timer} which checks
+if threads stay too much acumulated time on DISPATCH\_LEVEL, or too much time at once.
+
+\vspace{5mm}
+
+Threads cand raise or lower their IRQL by calling \textbf{KeLowerIrql} and \textbf{KeRaiseIrql}
