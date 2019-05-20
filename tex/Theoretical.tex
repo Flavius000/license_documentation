@@ -13,23 +13,27 @@ Anyone who has been around computers for a while will quickly recognize that the
 results on the client machine describes the way mainframes work.  Let’s take a look at the history of virtualization to see how it all began and look at some of the 
 ways that the world of virtualization has evolved.
 
+\vspace{5mm}
+
 \section{Mainframes examples}
 
 \vspace{5mm}
 \textbf{VMware}
+\vspace{5mm}
 The reigning king in the world of virtualization is VMware. Their line of products (including ESX Server and VI3) has led the recent movement toward 
 virtualized IT systems.
 
 \vspace{5mm}
 \textbf{Connectix Corp}
+\vspace{5mm}
 Connectix Corp. was a company that made virtualization software for Windows and Macintosh-based computers. In 2003 Microsoft acquired their virtualization 
 technology and now uses it in their own virtualization products.
 
 \vspace{5mm}
 \textbf{Microsoft}
+\vspace{5mm}
 In addition to Hyper-V (the main subject of this book ), there are two other virtualization products from Microsoft out there. 
 While not as grand in scope as Hyper-V, they are still a means of virtualization. Microsoft brings to the virtualization party Virtual PC, Virtual Server, and Hyper-V.
-
 
 \vspace{5mm}
 \section{What is Hyper-V}
@@ -37,7 +41,11 @@ While not as grand in scope as Hyper-V, they are still a means of virtualization
 
 Following the launch of Windows Server 2008, Microsoft released Windows Server 2008 Hyper-V, the hypervisor-based virtualization technology that is a role 
 built into 64-bit versions of Windows Server 2008. Hyper-V offers a reliable, scalable, and high-performance virtualization platform that plugs into existing IT 
-infrastructures, enabling users to consolidate some of the most demanding workloads. In addition, the Microsoft System Center product family gives customers a single 
+infrastructures, enabling users to consolidate some of the most demanding workloads. 
+
+\vspace{5mm}
+
+In addition, the Microsoft System Center product family gives customers a single 
 set of integrated tools to manage physical and virtual resources, helping customers create a more agile and dynamic datacenter. Hyper-V’s scalability derives from its 
 support for multiple processors and cores at the host level and improved memory limits at the host and guest level within virtual machines. This enables users to scale 
 their virtualization environment to support a large number of virtual machines within a given host and to take advantage of quick migration for high availability across 
@@ -45,16 +53,19 @@ multiple hosts.
 
 \vspace{5mm}
 \section{What is a v-switch}
-
 \vspace{5mm}
 
 A \textbf{v-switch}, ( virtual switch more precise ), is a virtual device that give the virtual machines and the host to communicate over network.
 This type of switches are completely simulating a real swithc, giving a network admin the posibility to create complex routes and networks, faster and easier that working
 with physical devices. In most cases, a v-switch is used to create communication channels vetween Virtual Machines, and between virtual machines and the host.
 
+\vspace{5mm}
 \subsection{Networking options}
+\vspace{5mm}
 
 By default Hyper-V comes with three different networking settings: 
+\vspace{5mm}
+
 \begin{enumerate}
 \item \textbf{External}
 \item \textbf{Internal}
@@ -63,13 +74,18 @@ By default Hyper-V comes with three different networking settings:
 
 \vspace{5mm}
 The \textbf{External} network setting creates a connection to a physical NIC so that guest virtual machines can access the physical network to which that NIC is connected. 
-The \textbf{Internal} setting creates a network that the host and the guest virtual machines can communicate on. The \textbf{Private} network setting creates a network that only virtual 
-machines can communicate on. The main and only difference betweem Internal and Private is that the host machine does not have a NIC in the Private one. Basicly, if you add a NIC of the 
+\vspace{5mm}
+The \textbf{Internal} setting creates a network that the host and the guest virtual machines can communicate on. 
+\vspace{5mm}
+The \textbf{Private} network setting creates a network that only virtual 
+machines can communicate on. 
+\vspace{5mm}
+The main and only difference betweem Internal and Private is that the host machine does not have a NIC in the Private one. Basicly, if you add a NIC of the 
 host in a Private network, it becomes an Internal one. More than likely, if you are mixing production, development, and test workloads on your virtual environments, you will have a mix 
 of external, internal, and private networks.
 
+\vspace{5mm}
 \subsection{What can be filtered}
-
 \vspace{5mm}
 
 The Hyper-V extensible switch supports an interface that allows instances of NDIS filter drivers (known as extensible switch extensions) to bind within the extensible switch driver stack. 
@@ -102,12 +118,12 @@ are accessed from outside the computer. Layer 7 gives us information like \textb
 TCP has a well known \textit{handshake} for every connection made. It is a way to syncronize 2 endpoints and let them know how to communicate with each other.
 The handshake looks like this:
 
+\vspace{5mm}
 \begin{enumerate}
 \item A pachet that has \textbf{SYN} TCP flag set, is sent from the client to server.
 \item A pachet that has \textbf{SYN-ACK} TCP flags set, is sent from the server to client.
 \item A pachet that has \textbf{ACK} TCP flag set, is sent from the client to server.
 \end{enumerate}
-
 \vspace{5mm}
 
 After this operation, at the operating system level, the TCP connection has been made. This connection is known as a \textbf{TCP Flow}. On a Windows machine,
@@ -121,11 +137,11 @@ the handshake. On the other hand, if a firewall wants to filter traffic from the
 \vspace{5mm}
 \subsubsection{Traffic directions}
 \vspace{5mm}
+
 At the machine layer, when talking about network traffic we have inbound traffic, and outbound traffic. As their name sais, inbound traffic is the one that comes from
 outside and outbound traffic is the one that goes out in the network. When speaking about v-swith traffic, there is no inbound and outbound, because the refference object os not 
 a machine anymore, but a switch. For these, there are the terms \textbf{Egress} and \textbf{Ingress}. \textbf{Egress} traffic is the traffic that gets out from the switch,
 and \textbf{Ingress} is the traffic that goes in the switch.
-
 \vspace{5mm}
 
 \begin{figure}[h]
@@ -141,7 +157,6 @@ and \textbf{Ingress} is the traffic that goes in the switch.
 There are two major types of hypervisors: a monolithic hypervisor and a microkernelized hypervisor. The monolithic hypervisor is installed directly to hardware and holds
 all third-party tools and drivers required for the Admin VM and guest VMs to function. A microkernelized hypervisor, like the monolithic hypervisor, is installed directly to the
 hardware but offloads driver management and the virtualization stack to the parent partition. \cite{BOOK:3}
-
 \vspace{5mm}
 
 \begin{figure}[h]
@@ -152,7 +167,6 @@ hardware but offloads driver management and the virtualization stack to the pare
 \end{figure}
 
 \vspace{5mm}
-
 The Hyper-V hypervisor handles access to physical resources such as the physical processer. The hypervisor provides a virtual view of the physical components to the
 partitions. Depending on the configuration, this may be a full virtual view, or the virtual view may be just a slice of the physical resources. The hypervisor uses what is called the
 hypercall as the interface of communications between the partitions and the hardware. The hypervisor will also run the advanced programmable interrupt controller (APIC),
@@ -162,7 +176,9 @@ which assigns priority levels to processor interrupts. The hypervisor also manag
 \section{Hyper-V Partitions}
 \vspace{5mm}
 
-Hyper-V creates logical units of isolation in which a guest operating system will be installed. Each of those logical units is called a partition . There are two types of partitions that are created in Hyper-V:
+Hyper-V creates logical units of isolation in which a guest operating system will be installed. Each of those logical units is called a partition . There are two types of 
+partitions that are created in Hyper-V:
+\vspace{5mm}
 \begin{enumerate}
 	\item the parent partition 
 	\item the child partition.
@@ -196,6 +212,7 @@ The child partition \cite{BOOK:1} runs a guest operating system that can have ap
 \vspace{5mm}
 
 Hyper-V categorizes operating systems into two different categories:
+\vspace{5mm}
 \begin{enumerate}
 	\item hypervisoraware operating system 
 	\item non-hypervisor-aware operating system
@@ -219,36 +236,32 @@ Two different types of devices are present in a child partition:
 	\item emulated
 \end{enumerate}
 
-
+\vspace{5mm}
 A \textbf{synthetic} device is designed to have the lowest overhead and utilizes the VMBUS to send packaged instructions to a driver on the parent partition
 
 \vspace{5mm}
-
 An \textbf{emulated} device is a device that emulates a physical device such as a network interface card. After you install a supported operating system onto a child partition, 
 you will want to install the integration components on that operating system. Integration components are a set of services and drivers that help the virtual machine perform and behave 
 in a more consistent manner. There are integration components for both Windows and Linux operating systems. The Windows Integration Components installs the virtualization service client 
 as well as time synchronization, heartbeat, shutdown, key/value pair exchange, and the Volume Shadow Copy Service (VSS).
 
 \vspace{5mm}
-
 The time synchronization component plays an important role in keeping child partitions in sync. This can be achieved using a network protocol as well, but the time synchronization component comes in handy when a network resource isn’t available, or where a network protocol may be too slow. Having the ability to synchronize time quickly becomes
 very important when restoring a virtual machine from a saved state, or when bringing a virtual machine back online that has been in a dormant state for an extended period of time.
 
 \vspace{5mm}
-
 The parent partition will use the heartbeat component to send a regular request to the child partition to verify if that partition is available. If the parent partition doesn’t
 receive a response in a timely manner, it will continue to request a status and will log
 events for the missing replies.
 
+\vspace{5mm}
 \subsection{VMBus}
-
 \vspace{5mm}
 
 The virtual machine bus (VMBUS) \cite{BOOK:2} is used for communication between the parent and child partition via the virtual service provider and the virtual service client. The VMBUS
 provides a virtualized environment if your system is running a virtualization-optimized processor.
 
 \vspace{5mm}
-
 \section{Windows Kernel}
 \vspace{5mm}
 
@@ -277,7 +290,6 @@ networking architecture the flexibility of letting each API use a number of diff
 Windows Filtering Platform (WFP) is a set of API and system services that provide a platform for creating network filtering applications. The WFP API allows developers to write code that interacts with the packet processing that takes place at several layers in the networking stack of the operating system. Network data can be filtered and also modified before it reaches its destination.
 
 \vspace{5mm}
-
 \cite{BOOK:1} Windows includes a rich and extensible platform for monitoring, intercepting, and processing
 network traffic at all levels in the network stack. Other Windows networking services extend basic
 networking features of the TCP/IP protocol driver by relying on Windows Filtering Platform (WFP).
@@ -291,6 +303,7 @@ With the WFP API, developers can implement firewalls, intrusion detection system
 \vspace{5mm}
 
 Some of the major component of WFP are:
+\vspace{5mm}
 \begin{enumerate}
 
 \item Filter engine. The filter engine is implemented in both user mode and kernel mode and performs all the filtering operations on the network. Each filter engine component consists of
@@ -309,40 +322,42 @@ upcoming details.
 
 \end{enumerate}
 
+\vspace{5mm}
+
 \subsubsection{Filters}
 
+\vspace{5mm}
 The main functionality of WFP is the filter registration. A filter is basicaly a set of conditions that tells the WFP whether or not to match a certain traffic. For example a filter can contain the condition of \textbf{remote port 80}, and will match only the traffic that goes to or comes from port 80. The matching action is defined by the developer and it can mainly be to block or allow the traffic, but we will talk about this later.
 
 \vspace{5mm}
-
 Each filter can have a \textbf{weight} that represents its order in the filter stack. A filter with a higher weight has priority over others with lower weights. This mechanism allow for complex scenarios and customizations of a network filtering application.
 Here is an example of 2 rules, given in the order of their priorities ( high to low ):
+\vspace{5mm}
 \begin{enumerate}
 \item Allow port 80
 \item Block ( all )
 \end{enumerate}
 
 \vspace{5mm}
-
 In the above example we allowed for port 80, which means that all connection to port 80 will pass, while others will be blocket. If the block rule had a higher weight, it would have blocked all traffic, including port 80.
 
 \vspace{5mm}
-
 There are 2 types of filters:
+\vspace{5mm}
+
 \begin{enumerate}
 \item Action filters
 \item Callout filters
 \end{enumerate}
 
 \vspace{5mm}
-
 An action filter has 2 possible verdicts: allow and block. This is usualy used in simple firewall rules when someone knows exatly what needs to be filtered and the conditions provided by WFP cover them all ( will talk about conditions soon ).
 \vspace{5mm}
 
 A callout filter is a filter that has a callout attached to it for better detections, filtering and complex logic. Sometimes one does not have all the conditions for filtering given by WFP, and needs to register a callout in order to filter the traffic based on more criterias.  In most cases, a filtering traffic utility does that, like a parental control product. It has to register callouts in order to access the data received on that connection, parse it and see if there is anything suspicious or matches a product policy and then take the action of blocking of permiting the traffic. 
 
+\vspace{5mm}
 \subsubsection{Filter Arbitration Behaviors}
-
 \vspace{5mm}
 
 Filter arbitration is the logic built into the Windows Filtering Platform (WFP) that is used to determine how filters interact with each other when making network traffic filtering decisions.
@@ -381,8 +396,10 @@ Within a layer, filter arbitration is performed as follows:
 
 \subsubsection{Application Programming Interface}
 
-The following function is used to add a filter to WFP engine.
+\vspace{5mm}
 
+The following function is used to add a filter to WFP engine.
+\vspace{5mm}
 \begin{lstlisting}
 DWORD FwpmFilterAdd0(
   HANDLE               		engineHandle,
@@ -391,11 +408,15 @@ DWORD FwpmFilterAdd0(
   UINT64               		*id
 );
 \end{lstlisting}
+\vspace{5mm}
 
 The handle to the filter engine is received after a call \textbf{FwpmEngineOpen0} to open a session.
 
+\vspace{5mm}
+
 This is the filter object structure. There are multiple fields that tell the filter where it must apply, and fileds that tell the filter how to behave.
 
+\vspace{5mm}
 \begin{lstlisting}
 typedef struct FWPM_FILTER0_ {
   GUID                   	filterKey;
@@ -418,11 +439,12 @@ typedef struct FWPM_FILTER0_ {
   FWP_VALUE0             	effectiveWeight;
 } FWPM_FILTER0;
 \end{lstlisting}
+\vspace{5mm}
 
 The above are just some example in order to make a better idea about the functionality. Please go to the official documentation from Microsoft for a full documentation and explication.
 
+\vspace{5mm}
 \subsubsection{Layer available for filtering}
-
 \vspace{5mm}
 
 WFP lets a developer choose at which layer the traffic should be filtered.
@@ -437,7 +459,6 @@ For example \textbf{FWPM LAYER ALE AUTH LISTEN V4} layer allows for authorizing 
 There are a lot of layers available for filtering coresponding to the OSI model and more, but the ones we are interested in in this article are the following: 
 
 \vspace{5mm}
-
 \begin{enumerate}
 \item FWPS\_LAYER\_INGRESS\_VSWITCH\_ETHERNET
 \item FWPS\_LAYER\_EGRESS\_VSWITCH\_ETHERNET
@@ -446,8 +467,10 @@ There are a lot of layers available for filtering coresponding to the OSI model 
 \item FWPS\_LAYER\_EGRESS\_VSWITCH\_TRANSPORT\_V4
 \item FWPS\_LAYER\_EGRESS\_VSWITCH\_TRANSPORT\_V6
 \end{enumerate}
+\vspace{5mm}
 
 \subsubsection{Filtering conditions}
+\vspace{5mm}
 
 Filter conditions are entities that help a developer vary the rules applied to the network stack.
 
@@ -483,14 +506,16 @@ a new port conditons. This time we have \textbf{port 443} , \textbf{port 80} and
 port 443 OR port 80 AND Chrome.exe.
 \end{lstlisting}
 
+\vspace{5mm}
 As you can see, if there are multiple conditions of the same type, but not consecutive in the array, the filter might not match any traffic. If the evaluation is done this way : 
+\vspace{5mm}
 
 \begin{lstlisting}
 port 443 AND Chrome.exe OR port 80.
 \end{lstlisting}
 
+\vspace{5mm}
 WFP will not match any traffic due to the fact that there cannot be traffic on both ports 443 and 80 in the same time. ( talking about remote ports here ).
-
 \vspace{5mm}
 
 The Windows Filtering Platform (WFP) filter engine supports a different set of filtering conditions at each of its filtering layers.
@@ -498,16 +523,16 @@ The Windows Filtering Platform (WFP) filter engine supports a different set of f
 \vspace{5mm}
 
 \textbf{The layers are: }
-
+\vspace{5mm}
 \begin{enumerate}
 \item FWPM\_LAYER\_EGRESS\_VSWITCH\_TRANSPORT\_V4
 \item FWPM\_LAYER\_INGRESS\_VSWITCH\_TRANSPORT\_V4
 \item FWPM\_LAYER\_INGRESS\_VSWITCH\_TRANSPORT\_V6
 \item FWPM\_LAYER\_EGRESSVSWITCH\_TRANSPORT\_V6
 \end{enumerate}
-
+\vspace{5mm}
 \textbf{The conditions available are:}
-
+\vspace{5mm}
 \begin{enumerate}
 \item FWPM\_CONDITION\_IP\_SOURCE\_ADDRESS
 The source ip of the ip header
